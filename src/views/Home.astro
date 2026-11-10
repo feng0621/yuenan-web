@@ -1,0 +1,208 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import TeamCard from '../components/TeamCard.astro';
+import { galleryRows, heroSlides } from '../data/media';
+import { getSite, localizeHref, type Locale } from '../i18n';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const site = getSite(locale);
+const { ui, coreValues, timeline, charity, news, team, benefits } = site;
+const home = site.pages.home;
+const href = (path: string) => localizeHref(locale, path);
+---
+<Base locale={locale}>
+  <section class="home-hero" data-home-hero>
+    <div class="home-hero__slides" data-parallax-media>
+      {heroSlides.map((src, i) => (
+        <div class:list={['home-hero__slide', i === 0 && 'is-active']} data-hero-slide>
+          <img src={src} alt="" fetchpriority={i === 0 ? 'high' : 'low'} loading={i === 0 ? 'eager' : 'lazy'} />
+        </div>
+      ))}
+    </div>
+    <div class="home-hero__copy" data-hero-copy>
+      <h1><span class="line-mask"><span data-hero-line>{home.heroTitle}</span></span></h1>
+      <p lang={home.heroSubtitleLang}><span class="line-mask"><span data-hero-line>{home.heroSubtitle}</span></span></p>
+    </div>
+    <div class="container home-hero__controls">
+      <button class="hero-arrow" type="button" aria-label={ui.prevSlide} data-hero-prev><span></span></button>
+      <a class="hero-scroll" href="#about-intro" aria-label={ui.scrollDown} data-scroll-link><Icon name="chevron-double" size={24} /></a>
+      <button class="hero-arrow hero-arrow--next" type="button" aria-label={ui.nextSlide} data-hero-next><span></span></button>
+    </div>
+    <div class="home-hero__progress" aria-hidden="true">
+      {heroSlides.map(() => <span data-hero-dot><i></i></span>)}
+    </div>
+  </section>
+
+  <section class="section section--wave home-about" id="about-intro">
+    <img class="watermark" src="/images/mark-gold.webp" alt="" loading="lazy" data-watermark />
+    <div class="container home-about__top">
+      <div>
+        <p class="eyebrow" data-reveal>{home.aboutEyebrow}</p>
+        <h2 class="display gold-text" data-reveal>{home.aboutTitle}</h2>
+      </div>
+      <div class="home-about__intro">
+        <h3 data-reveal>{home.aboutHeading}</h3>
+        <p data-reveal>
+          {home.aboutBody.map((line, i) => (
+            <>
+              {i > 0 && <br />}
+              {line}
+            </>
+          ))}
+        </p>
+        <a class="btn" href={href('/about/')} data-reveal>{ui.more}<Icon name="arrow" size={18} /></a>
+      </div>
+    </div>
+    <div class="container values-head"><h3 class="h-sub" data-reveal>{home.valuesTitle}</h3></div>
+    <div class="values-track" data-drag-scroll tabindex="0" aria-label={ui.valuesAria}>
+      <div class="values-track__inner" data-stagger>
+        {coreValues.map((value, i) => (
+          <article class:list={['value-card', i === 1 && 'is-featured']} data-card>
+            <img class="value-card__mark" src="/images/mark-white.png" alt="" loading="lazy" />
+            <div class="value-card__badge"><Icon name="verify" size={26} /></div>
+            <div class="value-card__copy">
+              <h4>{value.title}</h4>
+              <p>{value.text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--mist chamber" data-timeline>
+    <div class="container">
+      <div class="center-head">
+        <h2 class="display" data-reveal>{home.chamberTitle}</h2>
+        <p data-reveal>
+          {home.chamberLines.map((line, i) => (
+            <>
+              {i > 0 && <br />}
+              {line}
+            </>
+          ))}
+        </p>
+      </div>
+      <div class="chamber__stage" data-reveal>
+        <button class="circle-btn circle-btn--prev" type="button" aria-label={ui.prevStage} data-timeline-prev><Icon name="arrow-left" size={20} /></button>
+        <div class="chamber__card">
+          {timeline.map((item, i) => (
+            <div class:list={['chamber__slide', i === 0 && 'is-active']} data-timeline-slide aria-hidden={i !== 0}>
+              <div class="year-disc">
+                <img src="/images/mark-white.png" alt="" loading="lazy" />
+                <span>{item.circle[0]}</span><i>~</i><span>{item.circle[1]}</span>
+              </div>
+              <div class="chamber__copy">
+                <small>{item.name}</small>
+                <h3>{item.subtitle}</h3>
+                <div class="chamber__text" data-lenis-prevent>
+                  {item.body.length ? item.body.map((paragraph) => <p>{paragraph}</p>) : <p class="muted">{ui.timelinePending}</p>}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <button class="circle-btn circle-btn--next" type="button" aria-label={ui.nextStage} data-timeline-next><Icon name="arrow" size={20} /></button>
+      </div>
+      <div class="timeline">
+        <div class="timeline__line" aria-hidden="true"><i data-timeline-line></i></div>
+        {timeline.map((item, i) => (
+          <button class:list={['timeline__item', i === 0 && 'is-active']} type="button" data-timeline-tab>
+            <strong>{item.period}</strong>
+            <span class="timeline__dot" aria-hidden="true"></span>
+            <small>{item.name}</small>
+            <em>{item.subtitle}</em>
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--white home-charity">
+    <div class="container center-head">
+      <h2 class="display" data-reveal>{home.charityTitle}</h2>
+      <p class="center-head__sub" data-reveal>{home.charitySubtitle}</p>
+    </div>
+    <div class="marquee-wrap" data-reveal>
+      {galleryRows.map((row, i) => (
+        <div class="marquee" data-marquee data-direction={i === 0 ? '-1' : '1'}>
+          <div class="marquee__track" data-marquee-track>
+            {row.map((name) => <div class="marquee__tile"><img src={`/images/${name}.webp`} alt="" loading="lazy" draggable="false" /></div>)}
+          </div>
+        </div>
+      ))}
+    </div>
+    <div class="container stories">
+      {charity.map((item, i) => (
+        <article class:list={['story', i % 2 === 1 && 'story--flip']}>
+          <a class="story__media" href={href(`/charity/${item.slug}/`)} aria-label={item.title} data-img-reveal>
+            <img src={`/images/${item.image}.webp`} alt="" loading="lazy" />
+          </a>
+          <div class="story__copy">
+            <h3 data-reveal>{item.homeTitle}</h3>
+            <span class="rule" data-rule></span>
+            <p data-reveal>{item.homeText}</p>
+            <a class="btn" href={href(`/charity/${item.slug}/`)} data-reveal>{ui.more}<Icon name="arrow" size={18} /></a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section section--white home-news">
+    <div class="container">
+      <div class="split-head">
+        <div>
+          <p class="eyebrow" data-reveal>{home.newsEyebrow}</p>
+          <h2 class="display-sm" data-reveal>{home.newsTitle}</h2>
+        </div>
+        <a class="btn" href={href('/news/')} data-reveal>{ui.allUpdates}<Icon name="arrow" size={18} /></a>
+      </div>
+      <div class="news-grid" data-stagger>
+        {news.slice(0, 3).map((item) => (
+          <a class="news-card" href={href(`/news/${item.slug}/`)} data-card>
+            <div class="news-card__media"><img src={`/images/${item.image}.webp`} alt="" loading="lazy" /></div>
+            <time>{item.month}.{item.day}</time>
+            <h3>{item.title}</h3>
+            <p>{item.summary}</p>
+            <span class="more-link"><span class="round-arrow"><Icon name="arrow" size={20} /></span>{ui.readMore}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sand home-team">
+    <div class="container">
+      <div class="split-head">
+        <div>
+          <p class="eyebrow" data-reveal>{home.teamEyebrow}</p>
+          <h2 class="display-sm" data-reveal>{home.teamTitle}</h2>
+        </div>
+        <a class="btn" href={href('/team/')} data-reveal>{ui.allMembers}<Icon name="arrow" size={18} /></a>
+      </div>
+      <div class="team-grid" data-stagger>
+        {team.map((person) => <TeamCard {...person} locale={locale} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--cream home-benefits">
+    <div class="container">
+      <p class="eyebrow" data-reveal>{home.benefitsEyebrow}</p>
+      <h2 class="display-sm" data-reveal>{home.benefitsTitle}</h2>
+      <div class="benefit-grid" data-stagger>
+        {benefits.map((item) => (
+          <a class="benefit-card" href={href(`/benefits/${item.slug}/`)} data-card>
+            <span class="benefit-card__icon"><Icon name={item.icon} size={26} /></span>
+            <h3>{item.title}</h3>
+            <p>{item.homeText}</p>
+            <span class="benefit-card__more">{ui.learnMore}<Icon name="arrow" size={16} /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

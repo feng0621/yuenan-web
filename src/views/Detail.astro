@@ -1,0 +1,8 @@
+---
+import ArticlePage from '../components/ArticlePage.astro';
+import type { Article, Locale } from '../i18n';
+
+interface Props { locale: Locale; section: 'charity' | 'news' | 'benefits'; item: Article; prev: Article; next: Article }
+const props = Astro.props;
+---
+<ArticlePage {...props} />

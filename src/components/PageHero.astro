@@ -1,0 +1,13 @@
+---
+interface Props { title: string; subtitle: string; image: string; tone?: 'soft' | 'normal' }
+const { title, subtitle, image, tone = 'normal' } = Astro.props;
+---
+<section class:list={['page-hero', `page-hero--${tone}`]} data-page-hero>
+  <div class="page-hero__media" data-parallax-media>
+    <img src={image} alt="" fetchpriority="high" />
+  </div>
+  <div class="page-hero__copy" data-hero-copy>
+    <h1><span class="line-mask"><span data-hero-line>{title}</span></span></h1>
+    <p><span class="line-mask"><span data-hero-line>{subtitle}</span></span></p>
+  </div>
+</section>

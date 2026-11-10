@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from './Icon.astro';
+import { getSite, localizeHref, type Article, type Locale } from '../i18n';
+
+interface Props { locale: Locale; section: 'charity' | 'news' | 'benefits'; item: Article; prev: Article; next: Article }
+const { locale, section, item, prev, next } = Astro.props;
+const ui = getSite(locale).ui;
+const href = (slug?: string) => localizeHref(locale, slug ? `/${section}/${slug}/` : `/${section}/`);
+const displayTitle = item.displayTitle ?? item.title;
+---
+<Base locale={locale} title={item.title} description={item.summary} header="solid">
+  <article class="article container">
+    <a class="back-btn" href={href()} data-reveal><Icon name="back" size={16} />{ui.back}</a>
+    <div class="article__body">
+      <header class="article__head">
+        <p class="article__meta" data-reveal>{item.meta}</p>
+        <h1 data-reveal>{displayTitle}</h1>
+      </header>
+      <p class="article__lead" data-reveal>{item.lead}</p>
+      <figure class="article__hero" data-img-reveal>
+        <img src={`/images/${item.image}.webp`} alt="" />
+      </figure>
+      {item.sections.map((block) => (
+        <section class="article__section" data-reveal>
+          <h2>{block.heading}</h2>
+          {block.paragraphs?.map((p) => <p>{p}</p>)}
+          {block.listTitle && <p class="article__list-title">{block.listTitle}</p>}
+          {block.list && <ul>{block.list.map((li) => <li>{li}</li>)}</ul>}
+          {block.images && (
+            <div class="article__pair">
+              {block.images.map((img) => <div class="article__pair-img"><img src={`/images/${img}.webp`} alt="" loading="lazy" /></div>)}
+            </div>
+          )}
+          {block.caption && <p class="article__caption">{block.caption}</p>}
+        </section>
+      ))}
+      <div class="article__end" aria-hidden="true"><span>END</span></div>
+      <nav class="article__pager" aria-label={ui.pagerLabel} data-stagger>
+        <a class="pager-btn" href={href(prev.slug)} aria-label={ui.prevItemAria.replace('{title}', prev.title)} data-card>
+          <Icon name="arrow-left" size={22} /><span>{ui.prevItem}</span>
+        </a>
+        <a class="pager-btn pager-btn--next" href={href(next.slug)} aria-label={ui.nextItemAria.replace('{title}', next.title)} data-card>
+          <span>{ui.nextItem}</span><Icon name="arrow" size={22} />
+        </a>
+      </nav>
+    </div>
+  </article>
+</Base>

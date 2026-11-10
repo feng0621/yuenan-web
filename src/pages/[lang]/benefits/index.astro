@@ -1,0 +1,10 @@
+---
+import BenefitsIndex from '../../../views/BenefitsIndex.astro';
+import { foreignPaths } from '../../../i18n';
+
+export function getStaticPaths() {
+  return foreignPaths();
+}
+const { locale } = Astro.props;
+---
+<BenefitsIndex locale={locale} />

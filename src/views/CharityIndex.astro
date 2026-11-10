@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import FilterChips from '../components/FilterChips.astro';
+import Pagination from '../components/Pagination.astro';
+import Icon from '../components/Icon.astro';
+import { getSite, localizeHref, type Locale } from '../i18n';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const site = getSite(locale);
+const page = site.pages.charity;
+---
+<Base locale={locale} title={page.title}>
+  <PageHero title={page.title} subtitle={page.subtitle} image="/images/hero-field.webp" />
+  <section class="section section--cream list-section">
+    <div class="container">
+      <FilterChips all={page.all} options={page.options} label={site.ui.filterLabel} />
+      <div class="project-grid" data-filter-list data-page-size="4" data-stagger>
+        {site.charity.map((item) => (
+          <a class="project-card" href={localizeHref(locale, `/charity/${item.slug}/`)} data-category={item.category} data-card>
+            <div class="project-card__media"><img src={`/images/${item.image}.webp`} alt="" loading="lazy" /></div>
+            <small>{item.tag}</small>
+            <h2>{item.title}</h2>
+            <p>{item.summary}</p>
+            <span class="text-link">{site.ui.readMore}<Icon name="arrow" size={16} /></span>
+          </a>
+        ))}
+      </div>
+      <Pagination label={site.ui.paginationLabel} nextPage={site.ui.nextPage} pageLabel={site.ui.pageLabel} />
+    </div>
+  </section>
+</Base>

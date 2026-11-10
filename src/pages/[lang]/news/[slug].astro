@@ -1,0 +1,10 @@
+---
+import Detail from '../../../views/Detail.astro';
+import { prefixedCollectionPaths } from '../../../i18n';
+
+export function getStaticPaths() {
+  return prefixedCollectionPaths('news');
+}
+const props = Astro.props;
+---
+<Detail section="news" {...props} />

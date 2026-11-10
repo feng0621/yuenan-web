@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import TeamCard from '../components/TeamCard.astro';
+import { getSite, type Locale } from '../i18n';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const site = getSite(locale);
+const page = site.pages.team;
+---
+<Base locale={locale} title={page.title}>
+  <PageHero title={page.title} subtitle={page.subtitle} image="/images/banner-team.webp" />
+  <section class="section section--cream team-page">
+    <div class="container">
+      <p class="eyebrow" data-reveal>{page.eyebrow}</p>
+      <h2 class="display-sm" data-reveal>
+        {page.titleLines.map((line, i) => (
+          <>
+            {i > 0 && <br />}
+            {line}
+          </>
+        ))}
+      </h2>
+      <div class="team-grid" data-stagger>
+        {site.team.map((person) => <TeamCard {...person} locale={locale} />)}
+      </div>
+      <div class="team-page__idea">
+        <span class="rule rule--full" data-rule></span>
+        <p class="eyebrow eyebrow--gold" data-reveal>{page.ideaEyebrow}</p>
+        <h2 class="display-sm" data-reveal>
+          {page.ideaTitleLines.map((line, i) => (
+            <>
+              {i > 0 && <br />}
+              {line}
+            </>
+          ))}
+        </h2>
+        <p class="team-page__text" data-reveal>{page.ideaText}</p>
+      </div>
+    </div>
+  </section>
+</Base>

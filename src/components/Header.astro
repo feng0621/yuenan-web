@@ -1,0 +1,52 @@
+---
+import Icon from './Icon.astro';
+import { getSite, localizeHref, localeNames, locales, switchLocalePath, type Locale } from '../i18n';
+
+interface Props { locale: Locale; variant?: 'overlay' | 'solid' }
+const { locale, variant = 'overlay' } = Astro.props;
+const site = getSite(locale);
+const { ui, nav, company } = site;
+const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const hrefOf = (href: string) => localizeHref(locale, href).replace(/\/+$/, '') || '/';
+const isActive = (href: string) => (href === '/' ? path === hrefOf(href) : path === hrefOf(href) || path.startsWith(`${hrefOf(href)}/`));
+---
+<header class:list={['site-header', variant === 'solid' && 'is-solid']} data-header data-variant={variant}>
+  <div class="container site-header__inner">
+    <a class="brand" href={localizeHref(locale, '/')} aria-label={ui.homeAria.replace('{name}', company.name)}>
+      <img class="brand__mark brand__mark--white" src="/images/mark-white.png" alt="" width="40" height="40" />
+      <img class="brand__mark brand__mark--gold" src="/images/mark-gold.png" alt="" width="40" height="40" />
+      <span class="brand__name">{company.name}</span>
+    </a>
+
+    <nav class="site-nav" aria-label={ui.navLabel}>
+      {nav.map((item) => (
+        <a class:list={['site-nav__link', isActive(item.href) && 'is-active']} href={localizeHref(locale, item.href)} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+      ))}
+    </nav>
+
+    <div class="site-header__tools">
+      <div class="lang" data-lang>
+        <button class="lang__toggle" type="button" aria-haspopup="true" aria-expanded="false" aria-label={ui.langLabel} data-lang-toggle>
+          <Icon name="globe" size={20} />
+        </button>
+        <div class="lang__menu" role="menu" data-lang-menu>
+          {locales.map((item) => (
+            <a class:list={['lang__item', item === locale && 'is-current']} role="menuitem" href={switchLocalePath(Astro.url.pathname, item)} hreflang={item === 'zh' ? 'zh-CN' : item} aria-current={item === locale ? 'true' : undefined} lang={item === 'zh' ? 'zh-CN' : item}>{localeNames[item]}</a>
+          ))}
+        </div>
+      </div>
+      <button class="menu-toggle" type="button" aria-label={ui.menuOpen} aria-expanded="false" data-menu-toggle data-label-open={ui.menuOpen} data-label-close={ui.menuClose}>
+        <Icon name="menu" size={24} class="menu-toggle__open" />
+        <Icon name="close" size={24} class="menu-toggle__close" />
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-nav" data-mobile-nav aria-hidden="true">
+  <nav aria-label={ui.mobileNavLabel}>
+    {nav.map((item) => (
+      <a class:list={['mobile-nav__link', isActive(item.href) && 'is-active']} href={localizeHref(locale, item.href)}>{item.label}<Icon name="arrow" size={20} /></a>
+    ))}
+  </nav>
+</div>

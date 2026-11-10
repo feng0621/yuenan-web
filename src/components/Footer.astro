@@ -1,0 +1,41 @@
+---
+import Icon from './Icon.astro';
+import { getSite, localizeHref, type Locale } from '../i18n';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const { company, footerColumns, ui } = getSite(locale);
+---
+<footer class="site-footer">
+  <div class="container site-footer__main">
+    <div class="site-footer__brand" data-reveal>
+      <a class="site-footer__logo" href={localizeHref(locale, '/')}>
+        <img src="/images/mark-gold.png" alt="" width="52" height="52" loading="lazy" />
+        <span class="gold-text">{company.name}</span>
+      </a>
+      <p>{company.intro}</p>
+    </div>
+    <div class="site-footer__contact" data-reveal>
+      <div>
+        <small>{ui.officeHours}</small>
+        <strong>{company.hours}</strong>
+      </div>
+      <div>
+        <small>{ui.emailLabel}</small>
+        <a class="site-footer__email" href={`mailto:${company.email}`}>{company.email}</a>
+      </div>
+    </div>
+    <nav class="site-footer__nav" aria-label={ui.footerNavLabel} data-reveal>
+      {footerColumns.map((col) => (
+        <div>
+          <small>{col.title}</small>
+          {col.links.map((link) => <a href={localizeHref(locale, link.href)}><span>{link.label}</span></a>)}
+        </div>
+      ))}
+    </nav>
+  </div>
+  <div class="container site-footer__bottom">
+    <span>{company.copyright}</span>
+    <button class="to-top" type="button" data-to-top aria-label={ui.backToTop}>TOP <Icon name="chevron-up" size={16} /></button>
+  </div>
+</footer>

@@ -1,0 +1,31 @@
+---
+import Icon from './Icon.astro';
+import FilterChips from './FilterChips.astro';
+import Pagination from './Pagination.astro';
+
+interface Row { href: string; image: string; title: string; summary: string; category: string; big: string; small: string }
+interface Props { rows: Row[]; all: string; options: string[]; more: string; filterLabel: string; paginationLabel: string; nextPage: string; pageLabel: string }
+const { rows, all, options, more, filterLabel, paginationLabel, nextPage, pageLabel } = Astro.props;
+---
+<section class="section section--cream list-section">
+  <div class="container">
+    <FilterChips all={all} options={options} label={filterLabel} />
+    <div class="row-list" data-filter-list data-page-size="5" data-stagger>
+      {rows.map((row) => (
+        <a class="row-card" href={row.href} data-category={row.category} data-card>
+          <div class="row-card__media"><img src={`/images/${row.image}.webp`} alt="" loading="lazy" /></div>
+          <div class="row-card__body">
+            <h2>{row.title}</h2>
+            <p>{row.summary}</p>
+            <span class="more-link"><span class="round-arrow"><Icon name="arrow" size={20} /></span>{more}</span>
+          </div>
+          <div class="row-card__side">
+            <strong>{row.big}</strong>
+            <span>{row.small}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+    <Pagination label={paginationLabel} nextPage={nextPage} pageLabel={pageLabel} />
+  </div>
+</section>

@@ -1,0 +1,9 @@
+---
+import Icon from './Icon.astro';
+interface Props { label: string; nextPage: string; pageLabel: string }
+const { label, nextPage, pageLabel } = Astro.props;
+---
+<nav class="pagination" aria-label={label} data-pagination data-page-label={pageLabel}>
+  <div class="pagination__pages" data-pagination-pages></div>
+  <button class="pagination__next" type="button" aria-label={nextPage} data-pagination-next><Icon name="arrow" size={20} /></button>
+</nav>

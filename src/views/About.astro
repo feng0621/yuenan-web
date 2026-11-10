@@ -1,0 +1,105 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { getSite, localizeHref, type Locale } from '../i18n';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const site = getSite(locale);
+const page = site.pages.about;
+---
+<Base locale={locale} title={page.title}>
+  <PageHero title={page.title} subtitle={page.subtitle} image="/images/banner-about.webp" />
+
+  <section class="section section--wave about-intro">
+    <img class="watermark watermark--about" src="/images/mark-gold.webp" alt="" loading="lazy" data-watermark />
+    <div class="container about-intro__grid">
+      <div>
+        <p class="eyebrow" data-reveal>{page.eyebrow}</p>
+        <h2 class="display-sm" data-reveal>
+          {page.titleLines.map((line, i) => (
+            <>
+              {i > 0 && <br />}
+              {line}
+            </>
+          ))}
+        </h2>
+      </div>
+      <div class="about-intro__copy">
+        <p class="about-intro__lead" data-reveal>
+          {page.leadLines.map((line, i) => (
+            <>
+              {i > 0 && <br />}
+              {line}
+            </>
+          ))}
+        </p>
+        <div class="about-intro__pillars">
+          {page.pillars.map((pillar) => (
+            <div data-reveal>
+              <h3>{pillar.title}</h3>
+              <p>{pillar.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+    <div class="container facts" data-stagger>
+      {site.aboutFacts.map((fact) => (
+        <div class="fact" data-card>
+          <strong data-count={/^\d+$/.test(fact.big) ? fact.big : undefined}>{fact.big}</strong>
+          <h3>{fact.title}</h3>
+          <p>{fact.text}</p>
+        </div>
+      ))}
+    </div>
+    <div class="container ranking" data-img-reveal>
+      <img src="/images/ranking.webp" alt={page.rankingAlt} loading="lazy" />
+    </div>
+  </section>
+
+  <section class="section section--sand about-values">
+    <div class="container">
+      <p class="eyebrow" data-reveal>{page.valuesEyebrow}</p>
+      <h2 class="display-sm" data-reveal>
+        {page.valuesTitleLines.map((line, i) => (
+          <>
+            {i > 0 && <br />}
+            {line}
+          </>
+        ))}
+      </h2>
+      <div class="numbered-grid" data-stagger>
+        {site.coreValues.map((value, i) => (
+          <article class:list={['numbered-card', i === 1 && 'is-featured']} data-card>
+            <span>{String(i + 1).padStart(2, '0')}</span>
+            <h3>{value.title}</h3>
+            <p>{value.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--cream about-mission">
+    <div class="container about-mission__grid">
+      <div class="about-mission__media" data-img-reveal>
+        <img src="/images/kids-sky.webp" alt={page.missionAlt} loading="lazy" />
+      </div>
+      <div>
+        <p class="eyebrow" data-reveal>{page.missionEyebrow}</p>
+        <h2 class="display-sm" data-reveal>
+          {page.missionTitleLines.map((line, i) => (
+            <>
+              {i > 0 && <br />}
+              {line}
+            </>
+          ))}
+        </h2>
+        <p class="about-mission__text" data-reveal>{page.missionText}</p>
+        <a class="btn" href={localizeHref(locale, '/charity/')} data-reveal>{page.missionCta}<Icon name="arrow" size={18} /></a>
+      </div>
+    </div>
+  </section>
+</Base>

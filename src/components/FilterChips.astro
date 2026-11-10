@@ -1,0 +1,10 @@
+---
+interface Props { all: string; options: string[]; label: string }
+const { all, options, label } = Astro.props;
+---
+<div class="chips" role="group" aria-label={label} data-chips data-reveal>
+  <button class="chip is-active" type="button" data-filter="*" aria-pressed="true">{all}</button>
+  {options.map((option) => (
+    <button class="chip" type="button" data-filter={option} aria-pressed="false">{option}</button>
+  ))}
+</div>

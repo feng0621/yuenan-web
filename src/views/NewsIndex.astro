@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import RowList from '../components/RowList.astro';
+import { getSite, localizeHref, type Locale } from '../i18n';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const site = getSite(locale);
+const page = site.pages.news;
+const rows = site.news.map((item) => ({
+  href: localizeHref(locale, `/news/${item.slug}/`),
+  image: item.image,
+  title: item.title,
+  summary: item.summary,
+  category: item.category,
+  big: item.day,
+  small: item.month,
+}));
+---
+<Base locale={locale} title={page.title}>
+  <PageHero title={page.title} subtitle={page.subtitle} image="/images/banner-news.webp" />
+  <RowList rows={rows} all={page.all} options={page.options} more={site.ui.readMore} filterLabel={site.ui.filterLabel} paginationLabel={site.ui.paginationLabel} nextPage={site.ui.nextPage} pageLabel={site.ui.pageLabel} />
+</Base>

@@ -1,0 +1,10 @@
+---
+import NewsIndex from '../../../views/NewsIndex.astro';
+import { foreignPaths } from '../../../i18n';
+
+export function getStaticPaths() {
+  return foreignPaths();
+}
+const { locale } = Astro.props;
+---
+<NewsIndex locale={locale} />
