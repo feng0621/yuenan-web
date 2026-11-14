@@ -1,4 +1,4 @@
-export const locales = ['zh', 'en', 'vi'] as const;
+export const locales = ['vi', 'en'] as const;
 export type Locale = (typeof locales)[number];
 
 export interface LinkItem {

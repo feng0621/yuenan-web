@@ -31,7 +31,7 @@ const isActive = (href: string) => (href === '/' ? path === hrefOf(href) : path 
         </button>
         <div class="lang__menu" role="menu" data-lang-menu>
           {locales.map((item) => (
-            <a class:list={['lang__item', item === locale && 'is-current']} role="menuitem" href={switchLocalePath(Astro.url.pathname, item)} hreflang={item === 'zh' ? 'zh-CN' : item} aria-current={item === locale ? 'true' : undefined} lang={item === 'zh' ? 'zh-CN' : item}>{localeNames[item]}</a>
+            <a class:list={['lang__item', item === locale && 'is-current']} role="menuitem" href={switchLocalePath(Astro.url.pathname, item)} hreflang={item} aria-current={item === locale ? 'true' : undefined} lang={item}>{localeNames[item]}</a>
           ))}
         </div>
       </div>

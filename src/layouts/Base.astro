@@ -2,7 +2,6 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { getSite, languageTag, locales, switchLocalePath, type Locale } from '../i18n';
-import '@fontsource-variable/noto-sans-sc';
 import '@fontsource-variable/noto-sans';
 import '../styles/global.css';
 
@@ -23,11 +22,11 @@ const path = Astro.url.pathname;
     <meta name="theme-color" content="#c49e5f" />
     <link rel="icon" href="/favicon.png" type="image/png" />
     {locales.map((item) => <link rel="alternate" hreflang={languageTag(item)} href={switchLocalePath(path, item)} />)}
-    <link rel="alternate" hreflang="x-default" href={switchLocalePath(path, 'zh')} />
+    <link rel="alternate" hreflang="x-default" href={switchLocalePath(path, 'vi')} />
     <script is:inline>
       if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
         document.documentElement.classList.add('motion');
-        // 脚本加载失败时不让内容一直隐藏
+        // Keep content visible if the motion script fails to load.
         setTimeout(function () { if (!window.__motionReady) document.documentElement.classList.remove('motion'); }, 5000);
       }
     </script>

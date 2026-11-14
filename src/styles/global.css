@@ -19,9 +19,8 @@
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --shadow: 0 10px 32px rgb(120 92 48 / 0.08);
   --shadow-lift: 0 22px 48px rgb(120 92 48 / 0.2);
-  font-family: 'Noto Sans SC Variable', 'Noto Sans SC', 'Source Han Sans SC', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  font-family: 'Noto Sans Variable', 'Noto Sans', system-ui, sans-serif;
 }
-html[lang="en"], html[lang="vi"] { font-family: 'Noto Sans Variable', 'Noto Sans', 'Noto Sans SC Variable', system-ui, sans-serif; }
 
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-padding-top: var(--header-h); }
@@ -318,7 +317,7 @@ html[lang="en"] .timeline__item em, html[lang="vi"] .timeline__item em { overflo
 .fact strong { display: block; font-size: clamp(32px, 2.100vw, 40px); font-weight: 400; line-height: 1.2; color: var(--gold-deep); font-variant-numeric: tabular-nums; }
 .fact h3 { margin-top: 8px; font-size: 14px; font-weight: 600; }
 .fact p { font-size: 13px; color: var(--muted); }
-.ranking { margin-top: 40px; overflow: hidden; }
+.ranking { width: min(1020px, calc(100% - 2 * var(--gutter))); margin-top: 40px; overflow: hidden; background: #fff; }
 .ranking img { width: 100%; }
 .numbered-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: clamp(32px, 2.900vw, 56px); }
 .numbered-card { min-height: 300px; padding: 28px 24px; border-radius: 12px; }
