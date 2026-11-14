@@ -1,8 +1,8 @@
-# 天德会官网
+# Website Thiên Đức Hội
 
-基于 Figma「Daiwa 交付文件 / 官网」实现的静态多页面站点，使用 Astro、GSAP 和 Lenis。
+Trang web tĩnh đa trang được triển khai từ thiết kế Figma, sử dụng Astro, GSAP và Lenis.
 
-## 常用命令
+## Các lệnh thường dùng
 
 ```bash
 npm install
@@ -16,15 +16,15 @@ npm run dev
 npm run build
 ```
 
-`npm run build` 把可部署的静态文件输出到 `dist/`，可以放到任意静态托管或 Nginx 上。
+`npm run build` xuất bản tĩnh vào thư mục `dist/`, sẵn sàng triển khai trên static hosting hoặc Nginx.
 
-## 改内容
+## Nội dung và ngôn ngữ
 
-全站文案在 `src/i18n/`：`zh.ts` 是简体中文，`en.ts` 是英文，`vi.ts` 是越南文。三份文件的条目、slug 和图片名要保持一致。中文站在根路径，英文在 `/en/`，越南文在 `/vi/`。图片放在 `public/images/`，数据里只写文件名（不含 `.webp`）。轮播和公益走马灯的图片名单在 `src/data/media.ts`。
+Nội dung toàn trang nằm trong `src/i18n/`: `vi.ts` là bản tiếng Việt mặc định tại đường dẫn gốc, còn `en.ts` là gói tiếng Anh tại `/en/`. Hai tệp phải giữ cùng thứ tự mục, slug và tên ảnh. Ảnh nằm trong `public/images/`; dữ liệu chỉ ghi tên tệp, không ghi phần mở rộng `.webp`. Danh sách ảnh cho slideshow và marquee nằm trong `src/data/media.ts`.
 
-## 目录
+## Cấu trúc
 
-- `src/pages/`：页面路由
-- `src/components/`：页头、页脚、列表、文章模板等组件
-- `src/styles/global.css`：全站样式和设计变量
-- `src/scripts/main.ts`：全部交互动画，遵守系统的“减少动态效果”设置
+- `src/pages/`: định tuyến trang
+- `src/components/`: header, footer, danh sách và mẫu bài viết
+- `src/styles/global.css`: phong cách và design tokens toàn trang
+- `src/scripts/main.ts`: hiệu ứng tương tác, có hỗ trợ cài đặt giảm chuyển động

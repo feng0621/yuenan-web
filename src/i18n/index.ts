@@ -2,28 +2,27 @@ import { en } from './en';
 import type { Article, Locale, SiteContent } from './types';
 import { locales } from './types';
 import { vi } from './vi';
-import { zh } from './zh';
 
 export type { Article, BenefitItem, CharityItem, Locale, NewsItem, Section, SiteContent } from './types';
 export { locales };
 
-const copies: Record<Locale, SiteContent> = { zh, en, vi };
+const copies: Record<Locale, SiteContent> = { en, vi };
 
-const htmlLang: Record<Locale, string> = { zh: 'zh-CN', en: 'en', vi: 'vi' };
-export const localeNames: Record<Locale, string> = { zh: '简体中文', en: 'English', vi: 'Tiếng Việt' };
+const htmlLang: Record<Locale, string> = { en: 'en', vi: 'vi' };
+export const localeNames: Record<Locale, string> = { en: 'English', vi: 'Tiếng Việt' };
 
 function sameOrder(label: string, lists: { slug?: string; photo?: string }[][]) {
   const base = lists[0].map((item) => item.slug ?? item.photo).join('|');
   lists.slice(1).forEach((list) => {
     const got = list.map((item) => item.slug ?? item.photo).join('|');
-    if (got !== base) throw new Error(`${label} 在各语言中的顺序不一致`);
+    if (got !== base) throw new Error(`${label} items must use the same order in every locale`);
   });
 }
 
-sameOrder('慈善项目', [zh.charity, en.charity, vi.charity]);
-sameOrder('新闻', [zh.news, en.news, vi.news]);
-sameOrder('权益', [zh.benefits, en.benefits, vi.benefits]);
-sameOrder('团队', [zh.team, en.team, vi.team]);
+sameOrder('Charity', [vi.charity, en.charity]);
+sameOrder('News', [vi.news, en.news]);
+sameOrder('Benefits', [vi.benefits, en.benefits]);
+sameOrder('Team', [vi.team, en.team]);
 
 export function isLocale(value: string | undefined): value is Locale {
   return locales.includes(value as Locale);
@@ -40,7 +39,7 @@ export function languageTag(locale: Locale) {
 export function localizeHref(locale: Locale, href: string) {
   const path = href.startsWith('/') ? href : `/${href}`;
   const normalized = path === '/' ? '/' : path.endsWith('/') ? path : `${path}/`;
-  if (locale === 'zh') return normalized;
+  if (locale === 'vi') return normalized;
   return normalized === '/' ? `/${locale}/` : `/${locale}${normalized}`;
 }
 
@@ -54,7 +53,7 @@ export function switchLocalePath(pathname: string, target: Locale) {
 }
 
 export function foreignPaths() {
-  return (['en', 'vi'] as const).map((locale) => ({ params: { lang: locale }, props: { locale } }));
+  return [{ params: { lang: 'en' }, props: { locale: 'en' as const } }];
 }
 
 type CollectionKey = 'charity' | 'news' | 'benefits';
@@ -73,7 +72,7 @@ export function collectionPaths(locale: Locale, key: CollectionKey) {
 }
 
 export function prefixedCollectionPaths(key: CollectionKey) {
-  return (['en', 'vi'] as const).flatMap((locale) =>
+  return (['en'] as const).flatMap((locale) =>
     collectionPaths(locale, key).map(({ params, props }) => ({
       params: { lang: locale, slug: params.slug },
       props,

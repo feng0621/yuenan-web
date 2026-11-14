@@ -2,7 +2,7 @@
 import type { Locale } from '../i18n';
 interface Props { name: string; role: string; photo: string; locale: Locale }
 const { name, role, photo, locale } = Astro.props;
-const alt = locale === 'zh' ? `${name}，${role}` : `${name}, ${role}`;
+const alt = `${name}, ${role}`;
 ---
 <article class="team-card" data-card data-team-card>
   <div class="team-card__photo">
